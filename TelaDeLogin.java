@@ -13,6 +13,7 @@ public class TelaDeLogin extends JFrame {
 
     public TelaDeLogin() {
         super("Tel de Login");
+        // setLayout(new GridLayout(6,1,5,5));
         setLayout(new FlowLayout());
 
         lblLogin = new JLabel("Login:");
@@ -31,6 +32,7 @@ public class TelaDeLogin extends JFrame {
         add(btnLogar);
 
         lblNotificacoes = new JLabel("Notificações");
+        // lblNotificacoes.setSize(getContentPane().getWidth(), 40);
         add(lblNotificacoes);
 
         ButtonHandler buttonHandler = new ButtonHandler();
@@ -55,7 +57,6 @@ public class TelaDeLogin extends JFrame {
         @Override
         public void actionPerformed(ActionEvent event) {
             logar();
-            // aqui será invocado o método de logar
         }
     }
 
@@ -66,12 +67,11 @@ public class TelaDeLogin extends JFrame {
             Statement stmSqlLogin = conexao.createStatement();
             ResultSet rstSqlLogin = stmSqlLogin.executeQuery(strSqlLogin);
             if (rstSqlLogin.next()) {
-                notificarUsuario("Login realizado com sucesso.");
-                // aqui vamos notificar o usuario que o login e senha foram encontrados
+                notificarUsuario("Login " + rstSqlLogin.getString("email") + " realizado com sucesso.");
             } else {
                 notificarUsuario("Não foi possível encontrar o login e/ou senha digitados. Por favor, verifique e tente novamente.");
-                // aqui vamos notificar o usuario que o login e senha não foram encontrados
             }
+            stmSqlLogin.close();
         } catch (Exception e) {
             notificarUsuario("Houve um problema e não será possível realizar o login neste momento. Por favor, tente novamente mais tarde.");
             System.err.println("Ops! Deu ruim, se liga no erro: " + e);
