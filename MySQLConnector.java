@@ -3,7 +3,7 @@ import java.sql.*;
 public class MySQLConnector {
     public static Connection conectar() {
         String mysqlHost = "127.0.0.1";
-        String mysqlDb = "db_mysql_connector";
+        String mysqlDb = "db_senac";
         String mysqlUser = "root";
         String mysqlPassword = "senac@02";
         String mysqlPort = "3306";
