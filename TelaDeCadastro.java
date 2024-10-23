@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.sql.*;
 
 public class TelaDeCadastro extends JFrame {
     public final JLabel lblNome;
@@ -68,6 +69,52 @@ public class TelaDeCadastro extends JFrame {
         linhaNotificacoes.add(lblNotificacoes);
 
         add(linhaNotificacoes);
+
+        btnCadastrar.addActionListener(
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent event) {
+                    if (txtNome.getText().trim().length() == 0) {
+                        lblNotificacoes.setText("É necessário digitar alguma coisa no campo Nome. Por favor, digite um caracter válido no campo Nome para prosseguir.");
+                        txtNome.requestFocus();
+                        return;
+                    }
+
+                    if (txtEmail.getText().trim().length() == 0) {
+                        lblNotificacoes.setText("É necessário digitar alguma coisa no campo Email. Por favor, digite um caracter válido no campo Email para prosseguir.");
+                        txtEmail.requestFocus();
+                        return;
+                    }
+
+                    if (String.valueOf(txtSenha.getPassword()).trim().length() == 0) {
+                        lblNotificacoes.setText("É necessário digitar alguma coisa no campo Senha. Por favor, digite um caracter válido no campo Senha para prosseguir.");
+                        txtSenha.requestFocus();
+                        return;
+                    }
+
+                    String strSqlCadastrar = "insert into `db_senac`.`tbl_senac` (`nome`, `email`, `senha`) values ('" + txtNome.getText() + "','" + txtEmail.getText() + "','" + String.valueOf(txtSenha.getPassword()) + "');";
+                    try {
+                        Connection conexao = MySQLConnector.conectar();
+                        Statement stmSqlCadastrar = conexao.createStatement();
+                        stmSqlCadastrar.addBatch(strSqlCadastrar);
+                        stmSqlCadastrar.executeBatch();
+                        lblNotificacoes.setText("Cadastro realizado com sucesso!");
+                    } catch (Exception e) {
+                        lblNotificacoes.setText("Ops! Ocorrou um problema e não será possível cadastrar nesse momento. Por favor, tente novamente mais tarde.");
+                        System.err.println("Erro: " + e);
+                    }
+                }
+            }
+        );
+
+        btnCancelar.addActionListener(
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent event) {
+                    System.exit(0);
+                }
+            }
+        );
 
         setSize(300,300);
         setVisible(true);

@@ -1,7 +1,7 @@
 import java.sql.*;
 
 public class MySQLConnector {
-    public static Connection conectar() {
+    public static Connection conectar() throws Exception {
         String mysqlHost = "127.0.0.1";
         String mysqlDb = "db_senac";
         String mysqlUser = "root";
