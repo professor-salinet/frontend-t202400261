@@ -1,34 +1,34 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.sql.*;
+// import java.sql.*;
 
 public class TelaDePesquisa extends JFrame {
-    public final JTextField txtPesquisa;
+    public static final JTextField txtPesquisa = new JTextField(20);
     public final JButton btnPesquisar;
 
     public final JLabel lblId;
-    public final JTextField txtId;
+    public static final JTextField txtId = new JTextField(10);
 
     public final JLabel lblNome;
-    public final JTextField txtNome;
+    public static final JTextField txtNome = new JTextField(10);
 
     public final JLabel lblEmail;
-    public final JTextField txtEmail;
+    public static final JTextField txtEmail = new JTextField(10);
 
-    public final JButton btnPrimeiro;
-    public final JButton btnAnterior;
-    public final JButton btnProximo;
-    public final JButton btnUltimo;
+    public static final JButton btnPrimeiro = new JButton("<<");;
+    public static final JButton btnAnterior = new JButton("<");;
+    public static final JButton btnProximo = new JButton(">");;
+    public static final JButton btnUltimo = new JButton(">>");;
 
-    public final JLabel lblNotificacoes;
+    public static final JLabel lblNotificacoes = new JLabel("Notificações", SwingConstants.CENTER);
 
     public TelaDePesquisa() {
         super("Tela de Pesquisa");
         setLayout(new GridLayout(7,1,5,5));
 
         JPanel linhaInputPesquisa = new JPanel(new GridLayout(1,1));
-        txtPesquisa = new JTextField(20);
+        // txtPesquisa = new JTextField(20);
         linhaInputPesquisa.add(txtPesquisa);
         add(linhaInputPesquisa);
 
@@ -39,7 +39,7 @@ public class TelaDePesquisa extends JFrame {
 
         JPanel linhaId = new JPanel(new GridLayout(1,2));
         lblId = new JLabel("Id:", SwingConstants.RIGHT);
-        txtId = new JTextField(10);
+        // txtId = new JTextField(10);
         txtId.setEditable(false);
         linhaId.add(lblId);
         linhaId.add(txtId);
@@ -47,7 +47,7 @@ public class TelaDePesquisa extends JFrame {
 
         JPanel linhaNome = new JPanel(new GridLayout(1,2));
         lblNome = new JLabel("Nome:", SwingConstants.RIGHT);
-        txtNome = new JTextField(10);
+        // txtNome = new JTextField(10);
         txtNome.setEditable(false);
         linhaNome.add(lblNome);
         linhaNome.add(txtNome);
@@ -55,17 +55,17 @@ public class TelaDePesquisa extends JFrame {
 
         JPanel linhaEmail = new JPanel(new GridLayout(1,2));
         lblEmail = new JLabel("Email:", SwingConstants.RIGHT);
-        txtEmail = new JTextField(10);
+        // txtEmail = new JTextField(10);
         txtEmail.setEditable(false);
         linhaEmail.add(lblEmail);
         linhaEmail.add(txtEmail);
         add(linhaEmail);
 
         JPanel linhaBotoes = new JPanel(new GridLayout(1,4));
-        btnPrimeiro = new JButton("<<");
-        btnAnterior = new JButton("<");
-        btnProximo = new JButton(">");
-        btnUltimo = new JButton(">>");
+        // btnPrimeiro = new JButton("<<");
+        // btnAnterior = new JButton("<");
+        // btnProximo = new JButton(">");
+        // btnUltimo = new JButton(">>");
         linhaBotoes.add(btnPrimeiro);
         linhaBotoes.add(btnAnterior);
         linhaBotoes.add(btnProximo);
@@ -73,12 +73,43 @@ public class TelaDePesquisa extends JFrame {
         add(linhaBotoes);
 
         JPanel linhaNotificacoes = new JPanel(new GridLayout(1,1));
-        lblNotificacoes = new JLabel("Notificações", SwingConstants.CENTER);
+        // lblNotificacoes = new JLabel("Notificações", SwingConstants.CENTER);
         linhaNotificacoes.add(lblNotificacoes);
         add(linhaNotificacoes);
 
         setSize(300,300);
         setVisible(true);
+
+        NavegadorDeRegistro.inicializacaoDeRegistros();
+    }
+
+    public static void notificarUsuario(String strTexto) {
+        lblNotificacoes.setText(setHtmlFormat(strTexto));
+    }
+
+    public static String setHtmlFormat(String strTexto) {
+        return "<html><body>" + strTexto + "</body></html>";
+    }
+
+    public static void habilitarVoltar() {
+        btnPrimeiro.setEnabled(true);
+        btnAnterior.setEnabled(true);
+        btnProximo.setEnabled(false);
+        btnUltimo.setEnabled(false);
+    }
+
+    public static void habilitarAvancar() {
+        btnPrimeiro.setEnabled(false);
+        btnAnterior.setEnabled(false);
+        btnProximo.setEnabled(true);
+        btnUltimo.setEnabled(true);
+    }
+
+    public static void habilitarTodos() {
+        btnPrimeiro.setEnabled(true);
+        btnAnterior.setEnabled(true);
+        btnProximo.setEnabled(true);
+        btnUltimo.setEnabled(true);
     }
 
     public static void main(String[] args) {
