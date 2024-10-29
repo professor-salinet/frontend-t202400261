@@ -77,6 +77,25 @@ public class TelaDePesquisa extends JFrame {
         linhaNotificacoes.add(lblNotificacoes);
         add(linhaNotificacoes);
 
+        btnPrimeiro.addActionListener(
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent event) {
+                    NavegadorDeRegistro.vaParaPrimeiroRegistro();
+                }
+            }
+        );
+
+        btnProximo.addActionListener(
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent event) {
+                    NavegadorDeRegistro.vaParaProximoRegistro();
+                }
+            }
+        );
+
+
         setSize(300,300);
         setVisible(true);
 
