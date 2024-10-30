@@ -4,9 +4,26 @@ import javax.swing.*;
 import java.sql.*;
 
 public class NavegadorDeRegistro extends TelaDePesquisa {
+    public static String registroDePesquisa = "";
+    public static String clausulasDePesquisaComWhere = "";
+    public static String clausulasDePesquisaSemWhere = "";
+
+    public static void registrarPesquisa() {
+        registroDePesquisa = txtPesquisa.getText().trim();
+        if (registroDePesquisa.length() > 0) {
+            clausulasDePesquisaComWhere = " where `nome` like '%" + registroDePesquisa + "%' or `email` like '%" + registroDePesquisa + "%'";
+            clausulasDePesquisaSemWhere = " and (`nome` like '%" + registroDePesquisa + "%' or `email` like '%" + registroDePesquisa + "%')";
+        }
+        vaParaPrimeiroRegistro();
+    }
+
     public static void inicializacaoDeRegistros() {
+        vaParaPrimeiroRegistro();
+    }
+
+    public static void vaParaPrimeiroRegistro() {
         try {
-            String strSqlInicializacao = "select * from `db_senac`.`tbl_senac` order by `id` asc;";
+            String strSqlInicializacao = "select * from `db_senac`.`tbl_senac` " + clausulasDePesquisaComWhere + " order by `id` asc;";
             Connection conexao = MySQLConnector.conectar();
             Statement stmSqlInicializacao = conexao.createStatement();
             ResultSet rstSqlInicializacao = stmSqlInicializacao.executeQuery(strSqlInicializacao);
@@ -26,13 +43,9 @@ public class NavegadorDeRegistro extends TelaDePesquisa {
         }
     }
 
-    public static void vaParaPrimeiroRegistro() {
-        inicializacaoDeRegistros();
-    }
-
     public static void vaParaProximoRegistro() {
         try {
-            String strSqlProximoRegistro = "select * from `db_senac`.`tbl_senac` where `id` > " + txtId.getText() + " order by `id` asc;";
+            String strSqlProximoRegistro = "select * from `db_senac`.`tbl_senac` where `id` > " + txtId.getText() + clausulasDePesquisaSemWhere + " order by `id` asc;";
             Connection conexao = MySQLConnector.conectar();
             Statement stmSqlProximoRegistro = conexao.createStatement();
             ResultSet rstSqlProximoRegistro = stmSqlProximoRegistro.executeQuery(strSqlProximoRegistro);
@@ -55,7 +68,7 @@ public class NavegadorDeRegistro extends TelaDePesquisa {
 
     public static void vaParaUltimoRegistro() {
         try {
-            String strSqlUltimoRegistro = "select * from `db_senac`.`tbl_senac` order by `id` desc;";
+            String strSqlUltimoRegistro = "select * from `db_senac`.`tbl_senac` " + clausulasDePesquisaComWhere + " order by `id` desc;";
             Connection conexao = MySQLConnector.conectar();
             Statement stmSqlUltimoRegistro = conexao.createStatement();
             ResultSet rstSqlUltimoRegistro = stmSqlUltimoRegistro.executeQuery(strSqlUltimoRegistro);
@@ -77,7 +90,7 @@ public class NavegadorDeRegistro extends TelaDePesquisa {
 
     public static void vaParaRegistroAnterior() {
         try {
-            String strSqlRegistroAnterior = "select * from `db_senac`.`tbl_senac` where `id` < " + txtId.getText() + " order by `id` desc;";
+            String strSqlRegistroAnterior = "select * from `db_senac`.`tbl_senac` where `id` < " + txtId.getText() + clausulasDePesquisaSemWhere + " order by `id` desc;";
             Connection conexao = MySQLConnector.conectar();
             Statement stmSqlRegistroAnterior = conexao.createStatement();
             ResultSet rstSqlRegistroAnterior = stmSqlRegistroAnterior.executeQuery(strSqlRegistroAnterior);

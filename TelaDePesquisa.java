@@ -113,6 +113,15 @@ public class TelaDePesquisa extends JFrame {
             }
         );
 
+        btnPesquisar.addActionListener(
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent event) {
+                    NavegadorDeRegistro.registrarPesquisa();
+                }
+            }
+        );
+
         setSize(300,300);
         setVisible(true);
 
