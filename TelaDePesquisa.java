@@ -86,6 +86,15 @@ public class TelaDePesquisa extends JFrame {
             }
         );
 
+        btnAnterior.addActionListener(
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent event) {
+                    NavegadorDeRegistro.vaParaRegistroAnterior();
+                }
+            }
+        );
+
         btnProximo.addActionListener(
             new ActionListener() {
                 @Override
@@ -95,6 +104,14 @@ public class TelaDePesquisa extends JFrame {
             }
         );
 
+        btnUltimo.addActionListener(
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent event) {
+                    NavegadorDeRegistro.vaParaUltimoRegistro();
+                }
+            }
+        );
 
         setSize(300,300);
         setVisible(true);

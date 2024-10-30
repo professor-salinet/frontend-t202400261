@@ -41,11 +41,57 @@ public class NavegadorDeRegistro extends TelaDePesquisa {
                 txtNome.setText(rstSqlProximoRegistro.getString("nome"));
                 txtEmail.setText(rstSqlProximoRegistro.getString("email"));
                 notificarUsuario("Primeiro registro posicionado com sucesso!");
-                habilitarAvancar();
+                habilitarTodos();
             } else {
+                habilitarVoltar();
                 notificarUsuario("Não foram encontrados registros.");
             }
             stmSqlProximoRegistro.close();
+        } catch (Exception e) {
+            notificarUsuario("Ops! Houve um problema no servidor e não será possível inicializar os registros no momento. Por favor, retorne novamente mais tarde.");
+            System.err.println("Erro: " + e);
+        }
+    }
+
+    public static void vaParaUltimoRegistro() {
+        try {
+            String strSqlUltimoRegistro = "select * from `db_senac`.`tbl_senac` order by `id` desc;";
+            Connection conexao = MySQLConnector.conectar();
+            Statement stmSqlUltimoRegistro = conexao.createStatement();
+            ResultSet rstSqlUltimoRegistro = stmSqlUltimoRegistro.executeQuery(strSqlUltimoRegistro);
+            if (rstSqlUltimoRegistro.next()) {
+                txtId.setText(rstSqlUltimoRegistro.getString("id"));
+                txtNome.setText(rstSqlUltimoRegistro.getString("nome"));
+                txtEmail.setText(rstSqlUltimoRegistro.getString("email"));
+                notificarUsuario("Primeiro registro posicionado com sucesso!");
+                habilitarVoltar();
+            } else {
+                notificarUsuario("Não foram encontrados registros.");
+            }
+            stmSqlUltimoRegistro.close();
+        } catch (Exception e) {
+            notificarUsuario("Ops! Houve um problema no servidor e não será possível inicializar os registros no momento. Por favor, retorne novamente mais tarde.");
+            System.err.println("Erro: " + e);
+        }
+    }
+
+    public static void vaParaRegistroAnterior() {
+        try {
+            String strSqlRegistroAnterior = "select * from `db_senac`.`tbl_senac` where `id` < " + txtId.getText() + " order by `id` desc;";
+            Connection conexao = MySQLConnector.conectar();
+            Statement stmSqlRegistroAnterior = conexao.createStatement();
+            ResultSet rstSqlRegistroAnterior = stmSqlRegistroAnterior.executeQuery(strSqlRegistroAnterior);
+            if (rstSqlRegistroAnterior.next()) {
+                txtId.setText(rstSqlRegistroAnterior.getString("id"));
+                txtNome.setText(rstSqlRegistroAnterior.getString("nome"));
+                txtEmail.setText(rstSqlRegistroAnterior.getString("email"));
+                notificarUsuario("Primeiro registro posicionado com sucesso!");
+                habilitarTodos();
+            } else {
+                habilitarAvancar();
+                notificarUsuario("Não foram encontrados registros.");
+            }
+            stmSqlRegistroAnterior.close();
         } catch (Exception e) {
             notificarUsuario("Ops! Houve um problema no servidor e não será possível inicializar os registros no momento. Por favor, retorne novamente mais tarde.");
             System.err.println("Erro: " + e);
