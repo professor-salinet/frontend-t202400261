@@ -6,6 +6,7 @@ import javax.swing.*;
 public class TelaDePesquisa extends JFrame {
     public static final JTextField txtPesquisa = new JTextField(20);
     public final JButton btnPesquisar;
+    public final JButton btnReiniciarPesquisa;
 
     public final JLabel lblId;
     public static final JTextField txtId = new JTextField(10);
@@ -32,9 +33,14 @@ public class TelaDePesquisa extends JFrame {
         linhaInputPesquisa.add(txtPesquisa);
         add(linhaInputPesquisa);
 
-        JPanel linhaBotaoPesquisar = new JPanel(new GridLayout(1,1));
+        JPanel linhaBotaoPesquisar = new JPanel(new GridLayout(1,2));
+
         btnPesquisar = new JButton("Pesquisar");
+        btnPesquisar.setEnabled(false);
         linhaBotaoPesquisar.add(btnPesquisar);
+
+        btnReiniciarPesquisa = new JButton("Reiniciar Pesquisa");
+        linhaBotaoPesquisar.add(btnReiniciarPesquisa);
         add(linhaBotaoPesquisar);
 
         JPanel linhaId = new JPanel(new GridLayout(1,2));
@@ -118,6 +124,43 @@ public class TelaDePesquisa extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent event) {
                     NavegadorDeRegistro.registrarPesquisa();
+                    txtPesquisa.setText(txtPesquisa.getText().trim());
+                }
+            }
+        );
+
+        txtPesquisa.addKeyListener(
+            new KeyAdapter() {
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    btnPesquisar.setEnabled(detectarPesquisa());
+                    if (e.getKeyCode() == 10 && txtPesquisa.getText().trim().length() > 0) {
+                        NavegadorDeRegistro.registrarPesquisa();
+                        txtPesquisa.setText(txtPesquisa.getText().trim());
+                    }
+                    // if (e.getKeyCode() == 39) { // seta para direita
+                    //     NavegadorDeRegistro.vaParaProximoRegistro();
+                    // }
+                    // if (e.getKeyCode() == 40) { // seta para baixo
+                    //     NavegadorDeRegistro.vaParaPrimeiroRegistro();
+                    // }
+                    // if (e.getKeyCode() == 37) { // seta para esquerda
+                    //     NavegadorDeRegistro.vaParaRegistroAnterior();
+                    // }
+                    // if (e.getKeyCode() == 38) { // seta para cima
+                    //     NavegadorDeRegistro.vaParaUltimoRegistro();
+                    // }
+                }
+            }
+        );
+
+        btnReiniciarPesquisa.addActionListener(
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    limparCampos();
+                    txtPesquisa.setText("");
+                    NavegadorDeRegistro.vaParaPrimeiroRegistro();
                 }
             }
         );
@@ -157,8 +200,41 @@ public class TelaDePesquisa extends JFrame {
         btnUltimo.setEnabled(true);
     }
 
+    public static void desabilitarTodos() {
+        btnPrimeiro.setEnabled(false);
+        btnAnterior.setEnabled(false);
+        btnProximo.setEnabled(false);
+        btnUltimo.setEnabled(false);
+    }
+
+    public static boolean detectarPesquisa() {
+        if (txtPesquisa.getText().trim().length() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static void limparCampos() {
+        txtId.setText("");
+        txtNome.setText("");
+        txtEmail.setText("");
+    }
+
     public static void main(String[] args) {
         TelaDePesquisa appTelaDePesquisa = new TelaDePesquisa();
         appTelaDePesquisa.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        // appTelaDePesquisa.addKeyListener(
+        //     new KeyAdapter() {
+        //         @Override
+        //         public void keyReleased(KeyEvent e) {
+        //             System.out.println(e.getKeyCode());
+        //             if (e.getKeyCode() == 2) {
+                    
+        //             }
+        //         }
+        //     }
+        // );
     }
 }

@@ -34,6 +34,8 @@ public class NavegadorDeRegistro extends TelaDePesquisa {
                 notificarUsuario("Primeiro registro posicionado com sucesso!");
                 habilitarAvancar();
             } else {
+                limparCampos();
+                desabilitarTodos();
                 notificarUsuario("Não foram encontrados registros.");
             }
             stmSqlInicializacao.close();
@@ -53,11 +55,11 @@ public class NavegadorDeRegistro extends TelaDePesquisa {
                 txtId.setText(rstSqlProximoRegistro.getString("id"));
                 txtNome.setText(rstSqlProximoRegistro.getString("nome"));
                 txtEmail.setText(rstSqlProximoRegistro.getString("email"));
-                notificarUsuario("Primeiro registro posicionado com sucesso!");
+                notificarUsuario("Próximo registro posicionado com sucesso!");
                 habilitarTodos();
             } else {
                 habilitarVoltar();
-                notificarUsuario("Não foram encontrados registros.");
+                notificarUsuario("Não foram encontrados registros adiante.");
             }
             stmSqlProximoRegistro.close();
         } catch (Exception e) {
@@ -76,7 +78,7 @@ public class NavegadorDeRegistro extends TelaDePesquisa {
                 txtId.setText(rstSqlUltimoRegistro.getString("id"));
                 txtNome.setText(rstSqlUltimoRegistro.getString("nome"));
                 txtEmail.setText(rstSqlUltimoRegistro.getString("email"));
-                notificarUsuario("Primeiro registro posicionado com sucesso!");
+                notificarUsuario("Último registro posicionado com sucesso!");
                 habilitarVoltar();
             } else {
                 notificarUsuario("Não foram encontrados registros.");
@@ -98,11 +100,11 @@ public class NavegadorDeRegistro extends TelaDePesquisa {
                 txtId.setText(rstSqlRegistroAnterior.getString("id"));
                 txtNome.setText(rstSqlRegistroAnterior.getString("nome"));
                 txtEmail.setText(rstSqlRegistroAnterior.getString("email"));
-                notificarUsuario("Primeiro registro posicionado com sucesso!");
+                notificarUsuario("Registro anterior posicionado com sucesso!");
                 habilitarTodos();
             } else {
                 habilitarAvancar();
-                notificarUsuario("Não foram encontrados registros.");
+                notificarUsuario("Não foram encontrados registros anteriores.");
             }
             stmSqlRegistroAnterior.close();
         } catch (Exception e) {
