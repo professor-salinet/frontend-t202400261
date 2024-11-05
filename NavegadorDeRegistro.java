@@ -25,13 +25,19 @@ public class NavegadorDeRegistro extends TelaDePesquisa {
         try {
             String strSqlInicializacao = "select * from `db_senac`.`tbl_senac` " + clausulasDePesquisaComWhere + " order by `id` asc;";
             Connection conexao = MySQLConnector.conectar();
-            Statement stmSqlInicializacao = conexao.createStatement();
+            Statement stmSqlInicializacao = conexao.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet rstSqlInicializacao = stmSqlInicializacao.executeQuery(strSqlInicializacao);
-            if (rstSqlInicializacao.next()) {
+
+            int qtdResultados = 0;
+            while (rstSqlInicializacao.next()) {
+                qtdResultados++;
+            }
+
+            if (rstSqlInicializacao.first()) {
                 txtId.setText(rstSqlInicializacao.getString("id"));
                 txtNome.setText(rstSqlInicializacao.getString("nome"));
                 txtEmail.setText(rstSqlInicializacao.getString("email"));
-                notificarUsuario("Primeiro registro posicionado com sucesso!");
+                notificarUsuario("Foram encontrados \"" + qtdResultados + "\" registros. Primeiro registro posicionado com sucesso!");
                 habilitarAvancar();
             } else {
                 limparCampos();

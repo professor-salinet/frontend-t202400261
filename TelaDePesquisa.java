@@ -158,9 +158,13 @@ public class TelaDePesquisa extends JFrame {
             new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    limparCampos();
                     txtPesquisa.setText("");
+                    NavegadorDeRegistro.registroDePesquisa = "";
+                    NavegadorDeRegistro.clausulasDePesquisaComWhere = "";
+                    NavegadorDeRegistro.clausulasDePesquisaSemWhere = "";
                     NavegadorDeRegistro.vaParaPrimeiroRegistro();
+                    btnPesquisar.setEnabled(false);
+                    txtPesquisa.requestFocus();
                 }
             }
         );
